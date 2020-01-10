@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  </head>
+  <body>
+    <div>
+      <div id="chatbox">
+        <p class="botText">
+          <span>You can state your problem and I can help you book an appointment.<br>Could i know your specific problem.</span>
+          <img src="static/syndy.png" alt="" style="width: 70px;height: 70px;border-radius: 100px; display:block;text-align: left;">
+        </p>
+      </div>
+      <div id="userInput">
+        <input id="textInput" type="text" name="msg" placeholder="Message">
+        <input id="buttonInput" type="submit" value="Send">
+      </div>
+      <script>
+        function userInput(){
+          var rawText = $("#textInput").val();
+          $("#textInput").val("");
+          var userHtml = '<p class="userText"><span>' + rawText +'<img src="static/user.png" alt="" style="width: 70px;height: 70px;border-radius: 100px; display:block;">' +'</span></p>';
+          $("#chatbox").append(userHtml);
+          document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+          $.get("/appointment", { msg: rawText }).done(function(data) {
+            var botHtml = '<p class="botText"><span>' + data + '</span></p>';
+            $("#chatbox").append(botHtml);
+            document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+          });
+        }
+        $("#textInput").keypress(function(e) {
+            if(e.which == 13) {
+                // getBotResponse();
+                userInput();
+            }
+        });
+        $("#buttonInput").click(function() {
+          // getBotResponse();
+          userInput();
+        })
+      </script>
+    </div>
+  </body>
+</html>

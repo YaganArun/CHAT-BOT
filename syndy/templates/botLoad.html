@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="static/botLoad.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class=" p-5 container">
+            <div class="row">
+            </div>
+        </div>
+        <div class="pt-5 container">
+            <div class = "row">
+                <div class="col-lg-5"></div>
+                <div class="col-lg-4"> 
+                    <img src="static/syndy.png" alt="" style="width: 200px;height: 200px;border-radius: 100px;">
+                </div>
+            </div>
+        </div>
+        <div class="pt-4 container">
+            <div class="row">
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5">
+                    <p style="font-size: 40px;"><b>Hi ! I'm Syndy</b></p>
+                    <p style="font-size: 25px;"> I'll help you to track and improve your health.</p>
+                </div>
+                <div class="col-lg-4"></div> 
+                <div class="col-lg-3">
+                   <p> <a href="http://localhost:5000/ie" class="btn btn-outline-dark btn-lg " role="button">Ask Syndy about your symptoms</a></p>
+                    <br>
+                    <p><a href="http://localhost:5000/booking" class="btn btn-outline-primary btn-lg " role="button">Ask Syndy to book an appointment.</a></p>
+                    <script>
+                        function inferenceEngine_(){
+                            $.get('/ie' , function(){});
+                        }
+                        $("#inferenceEngine").click(function(){
+                            inferenceEngine_();
+                        })
+                    </script>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
