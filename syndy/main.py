@@ -1,5 +1,4 @@
 from flask import Flask , render_template , request
-from textblob import TextBlob
 from inferenceEngine import  inferenceEngine
 from knowledgeBase import cure , appt
 app = Flask(__name__)
@@ -35,30 +34,21 @@ def appointment_booking():
 def userInput():
     global g_node , age_group
     userMsg = str(request.args.get('msg'))
-    ####
-    conv = TextBlob(u'{}'.format(userMsg))
-    userMsg = str(conv.translate(from_lang='ta' , to = 'en'))
-    print(userMsg)
-    ##
     g_node = inferenceEngine.decision(age_group , g_node , userMsg)
     if age_group == 'children':
         if inferenceEngine.tree_children.feature[g_node] == inferenceEngine._tree.TREE_UNDEFINED: #reached leaf node or disease
             res = TextBlob(cure.return_diagnosis_report(inferenceEngine.print_disease(inferenceEngine.tree_children.value[g_node])[0]))
-            return str(res.translate(from_lang='en' , to = 'ta'))
-            #return cure.return_diagnosis_report(inferenceEngine.print_disease(inferenceEngine.tree_children.value[g_node])[0])
+            return cure.return_diagnosis_report(inferenceEngine.print_disease(inferenceEngine.tree_children.value[g_node])[0])
         else:
             res = TextBlob(inferenceEngine.print_question(age_group , g_node))
-            #return  inferenceEngine.print_question(age_group , g_node)
-            return str(res.translate(from_lang ='en' , to = 'ta'))
+            return  inferenceEngine.print_question(age_group , g_node)
     else:
         if inferenceEngine.tree.feature[g_node] == inferenceEngine._tree.TREE_UNDEFINED: #reached leaf node or disease
             res = TextBlob(cure.return_diagnosis_report(inferenceEngine.print_disease(inferenceEngine.tree.value[g_node])[0]))
-            #return  str(res.translate(from_lang = 'en' , to = 'ta'))
-            #return cure.return_diagnosis_report(inferenceEngine.print_disease(inferenceEngine.tree.value[g_node])[0])
+            return cure.return_diagnosis_report(inferenceEngine.print_disease(inferenceEngine.tree.value[g_node])[0])
         else:
             res = TextBlob(inferenceEngine.print_question( age_group , g_node))
-            #return str(res.translate(from_lang = 'en' , to = 'ta'))
-            #return  inferenceEngine.print_question( age_group , g_node)
+            return  inferenceEngine.print_question( age_group , g_node)
 
 
 @app.route('/appointment')                    #recieve input from appointment - (appointment.html)
