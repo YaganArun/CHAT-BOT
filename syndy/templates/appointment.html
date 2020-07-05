@@ -4,13 +4,15 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script>
+      alert("I'm only trained on these diseases to predict:\nback pain\njoint pain\ndisease related to child\nchest pain\nfoot pain")
+    </script>
   </head>
   <body>
     <div>
       <div id="chatbox">
         <p class="botText">
           <span>You can state your problem and I can help you book an appointment.<br>Could i know your specific problem.</span>
-          <img src="static/syndy.png" alt="" style="width: 70px;height: 70px;border-radius: 100px; display:block;text-align: left;">
         </p>
       </div>
       <div id="userInput">
@@ -21,13 +23,24 @@
         function userInput(){
           var rawText = $("#textInput").val();
           $("#textInput").val("");
-          var userHtml = '<p class="userText"><span>' + rawText +'<img src="static/user.png" alt="" style="width: 70px;height: 70px;border-radius: 100px; display:block;">' +'</span></p>';
+          var userHtml = '<p class="userText"><span>' + rawText +'</span></p>';
           $("#chatbox").append(userHtml);
           document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
-          $.get("/appointment", { msg: rawText }).done(function(data) {
-            var botHtml = '<p class="botText"><span>' + data + '</span></p>';
-            $("#chatbox").append(botHtml);
-            document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+          $.get("/appointment", { msg: rawText }).done(function({data1 , data2 }) {
+            var bool = prompt("is the problem related to " + data1 + "  ?" );
+            $.get("/queries", { msg: bool }).done(function(data) {
+              if(data == 'yes'){
+                  var botHtml = '<p class="botText"><span>' + data2 + '</span></p>';
+                  $("#chatbox").append(botHtml);
+                  document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+                }
+                else{
+                  var botHtml = '<p class="botText"><span>' + "Sorry I couldnt get you please try again" + '</span></p>';
+                  $("#chatbox").append(botHtml);
+                  document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+                }
+              });
+
           });
         }
         $("#textInput").keypress(function(e) {
@@ -44,3 +57,5 @@
     </div>
   </body>
 </html>
+
+

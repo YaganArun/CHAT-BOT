@@ -26,6 +26,7 @@ dt_nlp = DecisionTreeClassifier(random_state=0)
 clf = dt_nlp.fit(train_tfIdf, y_train)
 
 def predict_text_class(string):
+    string = string.strip()
     if string == 'no':
         string = string+'pe'
     resp = vectorizer_tfidf.transform([string])

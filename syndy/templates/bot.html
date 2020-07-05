@@ -9,26 +9,18 @@
     <div>
       <div id="chatbox">
         <p class="botText"><span>Please try typing full sentences as I am still learning!</span></p>
+        <p class="botText"><span>You fall under {{ age_grp }}</span></p>
         <p class="botText"><span>To diagnosis your health condition i'll be asking few questions based on your symptoms.</span></p>
         <p class="botText"><span> {{ question }}</span></p>
       </div>
+      <script>
+        alert("You shall converse with me in your natural language ....!")
+      </script>
       <div id="userInput">
         <input id="textInput" type="text" name="msg" placeholder="Message">
         <input id="buttonInput" type="submit" value="Send">
       </div>
       <script>
-        function getBotResponse() {
-          var rawText = $("#textInput").val();
-          var userHtml = '<p class="userText"><span>' + rawText + '</span></p>';
-          $("#chatbox").append(userHtml);
-          document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
-          $.get("/get", { msg: rawText }).done(function(data) {
-            var botHtml = '<p class="botText"><span>' + data + '</span></p>';
-            $("#chatbox").append(botHtml);
-            document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
-          });
-        }
-
         function userInput(){
           var rawText = $("#textInput").val();
           $("#textInput").val("");
@@ -43,12 +35,10 @@
         }
         $("#textInput").keypress(function(e) {
             if(e.which == 13) {
-                // getBotResponse();
                 userInput();
             }
         });
         $("#buttonInput").click(function() {
-          // getBotResponse();
           userInput();
         })
       </script>

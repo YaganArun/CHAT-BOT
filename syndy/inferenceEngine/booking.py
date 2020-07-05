@@ -26,5 +26,4 @@ def predict_appointment(inp):
     words = stopwords.words("english")
     wordList = " ".join([stemmer.stem(i) for i in re.sub("[^a-zA-Z]", " ", inp).split() if i not in words])
     inp1 = vectorizer_tfidf.transform([wordList])
-    print('\nUSER : ' , inp)
     return  clf.predict(inp1)[0]
